@@ -1,0 +1,211 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Roboto:wght@400;500&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+==========================================================================
+【AI HANDOVER NOTE】
+1. DESIGN PHILOSOPHY:
+   - Nature-Inspired Professionalism:融合自然木材质感与现代电商专业性，创造温暖可信赖的品牌体验
+   - Warm Minimalism: 以温暖的棕色和米色为主导，配合充足留白，营造高端木材批发商的专业形象
+   - Tactile Authenticity: 通过微妙的木纹纹理、柔和阴影和自然色调，传达真实木材的触感和品质
+   - 为俄罗斯木材批发市场设计，需体现企业20年历史的可靠性和专业性，同时保持现代电商的便捷性
+
+2. TYPOGRAPHY:
+   - Montserrat (Headings): 几何无衬线字体，现代专业，字重范围广（400-800），适合俄语西里尔字母显示，传达稳固可靠的企业形象
+   - Inter/Roboto (Body): 高可读性的人文主义无衬线字体，优化屏幕显示，支持西里尔字符，确保产品描述和技术规格清晰易读
+   - Mono: 用于订单号、产品编码、技术参数等数据展示
+
+3. COLOR SYSTEM:
+   - Brand Core (Hue 25-30): 温暖棕色系 (#8B4513 Saddle Brown) 作为主品牌色，象征优质木材和自然可靠
+   - --brand 映射到 --primary (深棕色 CTA)、--accent (金色点缀)、--ring (焦点状态)
+   - Secondary (Hue 90-110): 森林绿色系用于成功状态、环保认证标识，强化自然木材来源
+   - Neutral Base: 米色/奶油色背景 (oklch 0.97) 模拟浅色木材或纸张，提供温暖舒适的浏览体验
+   - Semantic Colors: destructive 使用暖红棕色 (Hue 15) 而非纯红，保持整体色调和谐；success 使用深森林绿 (Hue 145)；warning 使用琥珀金色 (Hue 45)
+   - Dark Mode: 深棕木炭色背景 (oklch 0.15)，模拟深色木材或夜间仓库氛围，保持专业感
+
+4. USAGE GUIDE:
+   - Layout: Full-width hero with wood texture overlay, centered container (max-w-7xl) for content sections, Bento-style product grid with subtle card elevation
+   - Effects: Subtle wood grain texture on backgrounds (opacity 0.03-0.05), soft box-shadows for card depth, gentle hover lift effects (translateY -2px), smooth color transitions (300ms ease)
+   - Product Cards: White/cream cards with 1px warm border, hover state with golden rim-light effect, product images on pure white background for clarity
+   - CTA Buttons: Primary brown with golden hover state, high contrast white text, medium border-radius (0.5rem) for approachable professionalism
+   - Sidebar/Navigation: Warm beige sidebar background, forest green active states, clear visual hierarchy with Montserrat headings
+   - Special Rules: All Russian text must use proper Cyrillic typography, maintain WCAG AA contrast on textured backgrounds, use golden accents sparingly for premium feel (certifications, special offers), integrate WhatsApp/Telegram buttons with brand-consistent styling
+==========================================================================
+*/
+
+:root {
+  /* Typography */
+  --font-sans: Montserrat, Inter, Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Core UI Tokens */
+  --background: oklch(0.97 0.008 75);
+  --foreground: oklch(0.22 0.015 30);
+  --card: oklch(0.99 0.005 70);
+  --card-foreground: oklch(0.24 0.015 30);
+  --popover: oklch(0.99 0.005 70);
+  --popover-foreground: oklch(0.22 0.015 30);
+  --primary: oklch(0.42 0.11 28);
+  --primary-foreground: oklch(0.98 0.005 75);
+  --secondary: oklch(0.92 0.015 85);
+  --secondary-foreground: oklch(0.28 0.02 30);
+  --muted: oklch(0.94 0.01 80);
+  --muted-foreground: oklch(0.52 0.015 30);
+  --accent: oklch(0.72 0.095 65);
+  --accent-foreground: oklch(0.18 0.02 30);
+  --destructive: oklch(0.55 0.18 18);
+  --destructive-foreground: oklch(0.98 0.005 75);
+  --border: oklch(0.88 0.012 75);
+  --input: oklch(0.90 0.012 75);
+  --ring: oklch(0.45 0.11 28);
+  
+  /* Chart Tokens */
+  --chart-1: oklch(0.48 0.12 28);
+  --chart-2: oklch(0.45 0.14 145);
+  --chart-3: oklch(0.68 0.10 65);
+  --chart-4: oklch(0.58 0.08 95);
+  --chart-5: oklch(0.52 0.06 45);
+  
+  /* Sidebar Tokens */
+  --sidebar: oklch(0.95 0.01 80);
+  --sidebar-foreground: oklch(0.28 0.015 30);
+  --sidebar-primary: oklch(0.42 0.11 28);
+  --sidebar-primary-foreground: oklch(0.98 0.005 75);
+  --sidebar-accent: oklch(0.72 0.095 65);
+  --sidebar-accent-foreground: oklch(0.18 0.02 30);
+  --sidebar-border: oklch(0.88 0.012 75);
+  --sidebar-ring: oklch(0.45 0.11 28);
+}
+
+.dark {
+  --background: oklch(0.15 0.018 30);
+  --foreground: oklch(0.92 0.008 75);
+  --card: oklch(0.18 0.02 30);
+  --card-foreground: oklch(0.92 0.008 75);
+  --popover: oklch(0.17 0.02 30);
+  --popover-foreground: oklch(0.92 0.008 75);
+  --primary: oklch(0.58 0.13 28);
+  --primary-foreground: oklch(0.12 0.02 30);
+  --secondary: oklch(0.25 0.025 30);
+  --secondary-foreground: oklch(0.88 0.01 75);
+  --muted: oklch(0.22 0.02 30);
+  --muted-foreground: oklch(0.65 0.015 75);
+  --accent: oklch(0.75 0.11 60);
+  --accent-foreground: oklch(0.12 0.02 30);
+  --destructive: oklch(0.58 0.20 18);
+  --destructive-foreground: oklch(0.95 0.008 75);
+  --border: oklch(0.28 0.025 30);
+  --input: oklch(0.26 0.025 30);
+  --ring: oklch(0.60 0.13 28);
+  
+  /* Chart Tokens */
+  --chart-1: oklch(0.62 0.14 28);
+  --chart-2: oklch(0.55 0.16 145);
+  --chart-3: oklch(0.75 0.12 60);
+  --chart-4: oklch(0.65 0.10 95);
+  --chart-5: oklch(0.60 0.08 45);
+  
+  /* Sidebar Tokens */
+  --sidebar: oklch(0.13 0.02 30);
+  --sidebar-foreground: oklch(0.88 0.01 75);
+  --sidebar-primary: oklch(0.58 0.13 28);
+  --sidebar-primary-foreground: oklch(0.12 0.02 30);
+  --sidebar-accent: oklch(0.75 0.11 60);
+  --sidebar-accent-foreground: oklch(0.12 0.02 30);
+  --sidebar-border: oklch(0.28 0.025 30);
+  --sidebar-ring: oklch(0.60 0.13 28);
+}
+
+@theme inline {
+  /* Shadcn Core Mapping */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Charts Mapping */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar Mapping */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Typography */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* Radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans min-h-screen;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  code, pre {
+    @apply font-mono;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40;
+  }
+}
