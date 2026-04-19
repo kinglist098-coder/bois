@@ -63,9 +63,12 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                 <div className="flex flex-col items-center justify-center h-full gap-4 text-muted-foreground">
                   <ShoppingCart size={48} className="opacity-20" />
                   <p className="text-sm">Корзина пуста</p>
-                  <Button variant="outline" size="sm" onClick={onClose}>
+                  <button
+                    onClick={onClose}
+                    className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-secondary transition-colors"
+                  >
                     Перейти в каталог
-                  </Button>
+                  </button>
                 </div>
               ) : (
                 <div className="space-y-3">
