@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2, ShoppingCart, MessageCircle } from 'lucide-react';
-import { useCartStore, useScrollTo } from '@/hooks/useCart';
-import { Button } from '@/components/ui/button';
+import { X, Trash2, ShoppingCart } from 'lucide-react';
+import { useCartStore } from '@/hooks/useCart';
 import { COMPANY_INFO } from '@/lib/index';
 import { SiTelegram } from 'react-icons/si';
 
@@ -12,12 +11,6 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ open, onClose }: CartDrawerProps) {
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
-  const scrollTo = useScrollTo();
-
-  const handleOrder = () => {
-    onClose();
-    scrollTo('contact');
-  };
 
   const buildTelegramMessage = () => {
     if (items.length === 0) return COMPANY_INFO.telegram;
@@ -121,15 +114,11 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
             {/* Footer */}
             {items.length > 0 && (
               <div className="p-4 border-t border-border space-y-3">
-                <Button className="w-full" onClick={handleOrder}>
-                  <MessageCircle size={16} className="mr-2" />
-                  Оформить заявку
-                </Button>
                 <a
                   href={buildTelegramMessage()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-blue-500/20"
                 >
                   <SiTelegram size={16} />
                   Заказать через Telegram

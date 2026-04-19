@@ -184,7 +184,7 @@ export default function Index() {
             </motion.div>
 
             <motion.div
-              className="flex justify-center gap-3 mt-6"
+              className="flex flex-wrap justify-center gap-3 mt-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.75 }}
@@ -192,6 +192,10 @@ export default function Index() {
               <a href={COMPANY_INFO.telegram} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-2 bg-blue-500/80 hover:bg-blue-500 text-white text-sm font-medium rounded-full backdrop-blur transition-colors shadow-lg shadow-blue-500/20">
                 <SiTelegram size={16} /> Telegram
+              </a>
+              <a href={`mailto:${COMPANY_INFO.email}`}
+                className="flex items-center gap-2 px-6 py-2 bg-white/20 hover:bg-white/30 text-white text-sm font-medium rounded-full backdrop-blur transition-colors shadow-lg">
+                <Mail size={16} /> Email
               </a>
             </motion.div>
           </div>
