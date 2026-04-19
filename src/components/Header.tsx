@@ -57,15 +57,11 @@ export default function Header() {
               onClick={() => handleNav('hero')}
               className="flex items-center gap-3 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shadow-lg group-hover:bg-accent transition-colors">
-                <span className="text-primary-foreground font-bold text-lg">Ф</span>
-              </div>
-              <div>
-                <div className="font-bold text-foreground text-base leading-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  «Форум»
-                </div>
-                <div className="text-muted-foreground text-xs leading-tight">Лесоматериалы · Санкт-Петербург</div>
-              </div>
+              <img 
+                src="/images/forum_logo.png" 
+                alt="Форум" 
+                className="h-12 w-auto object-contain"
+              />
             </button>
 
             {/* Desktop nav */}

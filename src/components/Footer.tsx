@@ -15,13 +15,11 @@ export default function Footer() {
           {/* Company */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">Ф</span>
-              </div>
-              <div>
-                <div className="font-bold text-base leading-tight">«Форум»</div>
-                <div className="text-xs opacity-60">Лесоматериалы с 2004 года</div>
-              </div>
+              <img 
+                src="/images/forum_logo.png" 
+                alt="Форум" 
+                className="h-14 w-auto object-contain brightness-0 invert opacity-90"
+              />
             </div>
             <p className="text-xs opacity-70 leading-relaxed mb-4">
               Надёжный поставщик качественных лесоматериалов и строительных материалов в Санкт-Петербурге. Оптовые поставки по всей России.
