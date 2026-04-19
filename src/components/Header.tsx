@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, ShoppingCart, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, ShoppingCart, ChevronDown, Mail } from 'lucide-react';
 import { SiTelegram } from 'react-icons/si';
 import { NAV_ITEMS, COMPANY_INFO } from '@/lib/index';
 import { useCartStore, useScrollTo } from '@/hooks/useCart';
@@ -38,13 +38,22 @@ export default function Header() {
             <span>Оптовые поставки лесоматериалов по всей России с 2004 года</span>
             <div className="flex items-center gap-4">
               <span>{COMPANY_INFO.workHours}</span>
-              <a
-                href={`tel:${COMPANY_INFO.phone}`}
-                className="flex items-center gap-1 text-primary font-semibold hover:text-accent transition-colors"
-              >
-                <Phone size={12} />
-                {COMPANY_INFO.phone}
-              </a>
+              <div className="flex items-center gap-4 border-l border-border/40 pl-4">
+                <a
+                  href={`mailto:${COMPANY_INFO.email}`}
+                  className="flex items-center gap-1.5 text-primary font-semibold hover:text-accent transition-colors"
+                >
+                  <Mail size={12} />
+                  {COMPANY_INFO.email}
+                </a>
+                <a
+                  href={`tel:${COMPANY_INFO.phone}`}
+                  className="flex items-center gap-1.5 text-primary font-semibold hover:text-accent transition-colors"
+                >
+                  <Phone size={12} />
+                  {COMPANY_INFO.phone}
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -133,14 +142,20 @@ export default function Header() {
                     {item.label}
                   </button>
                 ))}
-                <div className="flex gap-2 mt-2 pt-2 border-t border-border">
+                <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-border">
                   <a
                     href={COMPANY_INFO.telegram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg"
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg"
                   >
                     <SiTelegram size={16} /> Telegram
+                  </a>
+                  <a
+                    href={`mailto:${COMPANY_INFO.email}`}
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-secondary text-foreground text-sm font-medium rounded-lg"
+                  >
+                    <Mail size={16} /> Email
                   </a>
                 </div>
               </nav>

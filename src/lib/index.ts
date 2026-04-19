@@ -57,7 +57,7 @@ export const COMPANY_INFO = {
   address: '195220, г. Санкт-Петербург, Гражданский пр-кт, д. 26 литера А, помещ. 8-н, оф. 2-41',
   shortAddress: 'г. Санкт-Петербург, Гражданский пр-кт, д. 26',
   phone: '+7 (812) 648-23-93',
-  email: 'EMAIL_A_RENSEIGNER@domaine.ru', // ← Remplacer par le vrai email pro
+  email: 'info@forum-spb.ru',
   workHours: 'Пн–Пт: 9:00 – 19:00, Сб: 10:00 – 16:00',
   telegram: 'https://t.me/LLCForum',
   mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1991.0!2d30.33!3d60.06!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x469635!2z0J_QsNGA0L3QsNGB!5e0!3m2!1sru!2sru!4v1',
