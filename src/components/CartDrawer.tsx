@@ -43,8 +43,8 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border">
-              <div className="flex items-center gap-2">
-                <ShoppingCart size={20} className="text-primary" />
+              <div className="flex items-center gap-3">
+                <img src="/favicon.png" alt="Форум" className="h-6 w-auto" />
                 <h2 className="font-semibold text-lg">Корзина</h2>
                 {items.length > 0 && (
                   <span className="px-2 py-0.5 bg-primary text-primary-foreground rounded-full text-xs font-bold">

@@ -99,10 +99,13 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             {/* Info */}
             <div className="md:w-1/2 overflow-y-auto p-6 flex flex-col gap-4">
               <div>
-                <Badge variant="secondary" className="mb-2 text-xs">
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <Badge variant="secondary" className="text-xs">
                   {product.inStock ? '✓ В наличии' : 'Под заказ'}
                 </Badge>
-                <h2 className="text-2xl font-bold text-foreground">{product.name}</h2>
+                <img src="/favicon.png" alt="Форум" className="h-6 w-auto opacity-50" />
+              </div>
+              <h2 className="text-2xl font-bold text-foreground">{product.name}</h2>
                 {product.price ? (
                   <div className="mt-2">
                     <span className="text-2xl font-bold text-primary">{product.price} </span>
