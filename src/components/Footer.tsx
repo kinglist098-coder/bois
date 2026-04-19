@@ -18,7 +18,7 @@ export default function Footer() {
               <img 
                 src="/images/forum_logo.png" 
                 alt="Форум" 
-                className="h-14 w-auto object-contain brightness-0 invert opacity-90"
+                className="h-14 w-auto object-contain grayscale invert mix-blend-screen opacity-90"
               />
             </div>
             <p className="text-xs opacity-70 leading-relaxed mb-4">

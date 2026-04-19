@@ -148,20 +148,7 @@ export default function Index() {
               <img 
                 src="/images/forum_logo.png" 
                 alt="Форум" 
-                className="h-24 md:h-32 w-auto mx-auto brightness-0 invert drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-8"
-            >
-              <img 
-                src="/images/forum_logo.png" 
-                alt="Форум" 
-                className="h-24 md:h-32 w-auto mx-auto brightness-0 invert drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                className="h-24 md:h-32 w-auto mx-auto grayscale invert mix-blend-screen drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
               />
             </motion.div>
 

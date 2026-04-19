@@ -69,7 +69,9 @@ export default function Header() {
               <img 
                 src="/images/forum_logo.png" 
                 alt="Форум" 
-                className="h-12 w-auto object-contain"
+                className={`h-12 w-auto object-contain transition-all duration-300 ${
+                  !scrolled ? 'grayscale invert mix-blend-screen' : ''
+                }`}
               />
             </button>
 
