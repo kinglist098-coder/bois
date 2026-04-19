@@ -3,7 +3,7 @@ import { X, Trash2, ShoppingCart, MessageCircle } from 'lucide-react';
 import { useCartStore, useScrollTo } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { COMPANY_INFO } from '@/lib/index';
-import { SiWhatsapp } from 'react-icons/si';
+import { SiTelegram } from 'react-icons/si';
 
 interface CartDrawerProps {
   open: boolean;
@@ -19,13 +19,13 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
     scrollTo('contact');
   };
 
-  const buildWhatsAppMessage = () => {
-    if (items.length === 0) return COMPANY_INFO.whatsapp;
+  const buildTelegramMessage = () => {
+    if (items.length === 0) return COMPANY_INFO.telegram;
     const list = items
       .map((i) => `- ${i.product.name} × ${i.quantity}`)
       .join('\n');
     const msg = encodeURIComponent(`Добрый день! Хочу заказать:\n${list}\n\nПрошу связаться со мной.`);
-    return `${COMPANY_INFO.whatsapp}?text=${msg}`;
+    return `${COMPANY_INFO.telegram}?text=${msg}`;
   };
 
   return (
@@ -126,13 +126,13 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                   Оформить заявку
                 </Button>
                 <a
-                  href={buildWhatsAppMessage()}
+                  href={buildTelegramMessage()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
                 >
-                  <SiWhatsapp size={16} />
-                  Заказать через WhatsApp
+                  <SiTelegram size={16} />
+                  Заказать через Telegram
                 </a>
                 <button
                   onClick={clearCart}

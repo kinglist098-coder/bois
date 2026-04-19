@@ -1,6 +1,6 @@
 import { COMPANY_INFO } from '@/lib/index';
 import { Phone, Mail, MapPin, Clock, Building2 } from 'lucide-react';
-import { SiVk, SiTelegram, SiWhatsapp, SiInstagram } from 'react-icons/si';
+import { SiTelegram } from 'react-icons/si';
 import { useScrollTo } from '@/hooks/useCart';
 
 export default function Footer() {
@@ -19,31 +19,17 @@ export default function Footer() {
                 <span className="text-primary-foreground font-bold text-lg">Ф</span>
               </div>
               <div>
-                <div className="font-bold text-base leading-tight">ООО «Форум»</div>
+                <div className="font-bold text-base leading-tight">«Форум»</div>
                 <div className="text-xs opacity-60">Лесоматериалы с 2004 года</div>
               </div>
             </div>
             <p className="text-xs opacity-70 leading-relaxed mb-4">
               Надёжный поставщик качественных лесоматериалов и строительных материалов в Санкт-Петербурге. Оптовые поставки по всей России.
             </p>
-            <div className="flex items-center gap-2">
-              <a href={COMPANY_INFO.vk} target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-white/10 hover:bg-primary transition-colors" aria-label="ВКонтакте">
-                <SiVk size={16} />
-              </a>
               <a href={COMPANY_INFO.telegram} target="_blank" rel="noopener noreferrer"
                 className="p-2 rounded-lg bg-white/10 hover:bg-blue-500 transition-colors" aria-label="Telegram">
                 <SiTelegram size={16} />
               </a>
-              <a href={COMPANY_INFO.whatsapp} target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-white/10 hover:bg-green-500 transition-colors" aria-label="WhatsApp">
-                <SiWhatsapp size={16} />
-              </a>
-              <a href={COMPANY_INFO.instagram} target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-white/10 hover:bg-pink-500 transition-colors" aria-label="Instagram">
-                <SiInstagram size={16} />
-              </a>
-            </div>
           </div>
 
           {/* Catalog */}
@@ -127,7 +113,7 @@ export default function Footer() {
               <span>КПП {COMPANY_INFO.kpp}</span>
               <span>ОКПО {COMPANY_INFO.okpo}</span>
             </div>
-            <span>© {year} ООО «Форум». Все права защищены.</span>
+            <span>© {year} «Форум». Все права защищены.</span>
           </div>
         </div>
       </div>

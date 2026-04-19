@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ChevronDown, ArrowRight, Phone, MessageCircle, Star, Shield, Truck, Award, Users, TreePine, CheckCircle, MapPin, Mail, Clock, Send, Building2 } from 'lucide-react';
-import { SiWhatsapp, SiTelegram, SiVk } from 'react-icons/si';
+import { SiTelegram } from 'react-icons/si';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -183,19 +183,14 @@ export default function Index() {
               </Button>
             </motion.div>
 
-            {/* Messenger buttons */}
             <motion.div
               className="flex justify-center gap-3 mt-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.75 }}
             >
-              <a href={COMPANY_INFO.whatsapp} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-green-500/80 hover:bg-green-500 text-white text-sm font-medium rounded-full backdrop-blur transition-colors">
-                <SiWhatsapp size={16} /> WhatsApp
-              </a>
               <a href={COMPANY_INFO.telegram} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500/80 hover:bg-blue-500 text-white text-sm font-medium rounded-full backdrop-blur transition-colors">
+                className="flex items-center gap-2 px-6 py-2 bg-blue-500/80 hover:bg-blue-500 text-white text-sm font-medium rounded-full backdrop-blur transition-colors shadow-lg shadow-blue-500/20">
                 <SiTelegram size={16} /> Telegram
               </a>
             </motion.div>
@@ -244,7 +239,7 @@ export default function Index() {
               <FadeSection>
                 <Badge variant="secondary" className="mb-4">О компании</Badge>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  ООО «Форум» — ваш надёжный партнёр в сфере лесоматериалов
+                  «Форум» — ваш надёжный партнёр в сфере лесоматериалов
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   С 2004 года мы специализируемся на оптовой торговле лесоматериалами и строительными материалами в Санкт-Петербурге и по всей России. За более чем 20 лет работы мы выстроили долгосрочные отношения с ведущими производителями и стали надёжным партнёром для сотен строительных компаний и частных застройщиков.
@@ -390,13 +385,10 @@ export default function Index() {
               <p className="text-muted-foreground mb-4">
                 Нужен товар не из списка? Свяжитесь с нами — мы найдём любой материал.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button size="lg" onClick={() => scrollTo('contact')}>
-                  <MessageCircle size={18} className="mr-2" /> Запросить нестандартный товар
-                </Button>
-                <a href={COMPANY_INFO.whatsapp} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                    <SiWhatsapp size={18} className="mr-2" /> Написать в WhatsApp
+              <div className="flex justify-center mt-4">
+                <a href={COMPANY_INFO.telegram} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full bg-blue-500 hover:bg-blue-600 shadow-lg shadow-blue-500/20">
+                      <SiTelegram size={18} className="mr-2" /> Написать в Telegram
                   </Button>
                 </a>
               </div>
@@ -515,24 +507,12 @@ export default function Index() {
                   <h3 className="font-semibold mb-3">Быстрая связь</h3>
                   <div className="flex flex-col gap-2">
                     <a
-                      href={COMPANY_INFO.whatsapp}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 bg-green-50 border border-green-200 hover:bg-green-100 rounded-lg transition-colors"
-                    >
-                      <SiWhatsapp size={22} className="text-green-600 flex-shrink-0" />
-                      <div>
-                        <div className="text-sm font-medium text-green-800">WhatsApp</div>
-                        <div className="text-xs text-green-600">Написать в WhatsApp</div>
-                      </div>
-                    </a>
-                    <a
                       href={COMPANY_INFO.telegram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 bg-blue-50 border border-blue-200 hover:bg-blue-100 rounded-lg transition-colors"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-blue-50 border border-blue-100 hover:bg-blue-100 hover:scale-[1.02] transition-all duration-300"
                     >
-                      <SiTelegram size={22} className="text-blue-600 flex-shrink-0" />
+                      <SiTelegram size={24} className="text-blue-600 flex-shrink-0" />
                       <div>
                         <div className="text-sm font-medium text-blue-800">Telegram</div>
                         <div className="text-xs text-blue-600">Написать в Telegram</div>
@@ -581,17 +561,11 @@ export default function Index() {
 
                 {/* Social */}
                 <div className="p-5 bg-card border border-border rounded-xl">
-                  <h3 className="font-semibold mb-3">Мы в соцсетях</h3>
-                  <div className="flex gap-2">
-                    <a href={COMPANY_INFO.vk} target="_blank" rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-2 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors">
-                      <SiVk size={16} /> ВКонтакте
-                    </a>
-                    <a href={COMPANY_INFO.telegram} target="_blank" rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-2 bg-sky-500 text-white text-xs font-medium rounded-lg hover:bg-sky-600 transition-colors">
-                      <SiTelegram size={16} /> Telegram
-                    </a>
-                  </div>
+                  <h3 className="font-semibold mb-3">Мы в Telegram</h3>
+                  <a href={COMPANY_INFO.telegram} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-3 py-3 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/20">
+                    <SiTelegram size={18} /> Наш канал в Telegram
+                  </a>
                 </div>
               </div>
 
@@ -682,7 +656,7 @@ export default function Index() {
             {/* Map */}
             <FadeSection className="mt-8 rounded-xl overflow-hidden border border-border h-72">
               <iframe
-                title="Карта офиса ООО Форум Санкт-Петербург"
+                title="Карта офиса Форум Санкт-Петербург"
                 src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.0!2d30.408!3d59.994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4696378e8c5a6a8f%3A0x9dab4d80e3fc0b59!2z0JPRgNCw0LbQtNCw0L3RgdC60LjQuSDQv9GALdGCLCAyNiwg0KHQsNC90LrRgi3QnyDQv9C10YLQtdGA0LHRg9GA0LMsIDE5NTIyMA!5e0!3m2!1sru!2sru!4v1677000000000!5m2!1sru!2sru`}
                 width="100%"
                 height="100%"

@@ -6,7 +6,7 @@ import { useCartStore, useScrollTo } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { COMPANY_INFO } from '@/lib/index';
-import { SiWhatsapp, SiTelegram } from 'react-icons/si';
+import { SiTelegram } from 'react-icons/si';
 
 interface ProductModalProps {
   product: Product | null;
@@ -32,7 +32,6 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     setTimeout(() => scrollTo('contact'), 100);
   };
 
-  const waMsg = encodeURIComponent(`Добрый день! Интересует товар: ${product.name}. Подскажите наличие и условия.`);
 
   return (
     <AnimatePresence>
@@ -145,24 +144,14 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 <Button variant="outline" className="w-full" onClick={handleContact}>
                   <MessageCircle size={16} className="mr-2" /> Запросить цену
                 </Button>
-                <div className="flex gap-2">
-                  <a
-                    href={`${COMPANY_INFO.whatsapp}?text=${waMsg}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <SiWhatsapp size={14} /> WhatsApp
-                  </a>
                   <a
                     href={COMPANY_INFO.telegram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
                   >
                     <SiTelegram size={14} /> Telegram
                   </a>
-                </div>
               </div>
             </div>
           </motion.div>

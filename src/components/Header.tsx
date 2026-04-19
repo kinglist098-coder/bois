@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone, ShoppingCart, ChevronDown } from 'lucide-react';
-import { SiTelegram, SiWhatsapp } from 'react-icons/si';
+import { SiTelegram } from 'react-icons/si';
 import { NAV_ITEMS, COMPANY_INFO } from '@/lib/index';
 import { useCartStore, useScrollTo } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
@@ -62,7 +62,7 @@ export default function Header() {
               </div>
               <div>
                 <div className="font-bold text-foreground text-base leading-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  ООО «Форум»
+                  «Форум»
                 </div>
                 <div className="text-muted-foreground text-xs leading-tight">Лесоматериалы · Санкт-Петербург</div>
               </div>
@@ -83,15 +83,6 @@ export default function Header() {
 
             {/* Right actions */}
             <div className="flex items-center gap-2">
-              <a
-                href={COMPANY_INFO.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:flex items-center gap-2 px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
-              >
-                <SiWhatsapp size={16} />
-                <span className="hidden xl:inline">WhatsApp</span>
-              </a>
               <a
                 href={COMPANY_INFO.telegram}
                 target="_blank"
@@ -147,14 +138,6 @@ export default function Header() {
                   </button>
                 ))}
                 <div className="flex gap-2 mt-2 pt-2 border-t border-border">
-                  <a
-                    href={COMPANY_INFO.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-lg"
-                  >
-                    <SiWhatsapp size={16} /> WhatsApp
-                  </a>
                   <a
                     href={COMPANY_INFO.telegram}
                     target="_blank"

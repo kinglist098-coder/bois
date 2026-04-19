@@ -46,8 +46,8 @@ export interface ContactForm {
 // COMPANY INFO
 // ==============================
 export const COMPANY_INFO = {
-  name: 'ООО «Форум»',
-  fullName: 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «ФОРУМ»',
+  name: '«Форум»',
+  fullName: '«ФОРУМ»',
   inn: '7801360287',
   ogrn: '1047855013700',
   kpp: '780401001',
@@ -59,10 +59,7 @@ export const COMPANY_INFO = {
   phone: '+7 (812) 648-23-93',
   email: 'info@sevles-spb.ru',
   workHours: 'Пн–Пт: 9:00 – 19:00, Сб: 10:00 – 16:00',
-  whatsapp: 'https://wa.me/78126482393',
   telegram: 'https://t.me/sevles_spb_bot',
-  vk: 'https://vk.com/sevles_spb',
-  instagram: 'https://instagram.com/sevles_spb',
   mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1991.0!2d30.33!3d60.06!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x469635!2z0J_QsNGA0L3QsNGB!5e0!3m2!1sru!2sru!4v1',
   bases: [
     'Стройбаза Парнас: 1-й Верхний переулок, дом 8Б',
