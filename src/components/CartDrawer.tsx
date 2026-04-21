@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, ShoppingCart } from 'lucide-react';
-import { useCartStore } from '@/hooks/useCart';
+import { useCartStore, calculateItemPrice } from '@/hooks/useCart';
 import { COMPANY_INFO } from '@/lib/index';
 import { SiTelegram } from 'react-icons/si';
 
@@ -10,14 +10,34 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ open, onClose }: CartDrawerProps) {
-  const { items, removeItem, updateQuantity, clearCart } = useCartStore();
+  const { items, removeItem, updateQuantity, clearCart, totalPrice } = useCartStore();
 
   const buildTelegramMessage = () => {
     if (items.length === 0) return COMPANY_INFO.telegram;
+    
+    // Attempt to get the current base URL for absolute image links
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
     const list = items
-      .map((i) => `- ${i.product.name} × ${i.quantity}`)
-      .join('\n');
-    const msg = encodeURIComponent(`Добрый день! Хочу заказать:\n${list}\n\nПрошу связаться со мной.`);
+      .map((i) => {
+        const itemPrice = calculateItemPrice(i.product);
+        const subtotal = itemPrice * i.quantity;
+        const imgUrl = i.product.images[0].startsWith('http') 
+          ? i.product.images[0] 
+          : `${baseUrl}${i.product.images[0]}`;
+        
+        return `- ${i.product.name}\n  Цена: ${i.product.price} ${i.product.priceUnit}\n  Кол-во: ${i.quantity} шт.\n  Сумма: ${subtotal.toLocaleString()} ₽\n  Фото: ${imgUrl}`;
+      })
+      .join('\n\n');
+
+    const total = totalPrice();
+    const msg = encodeURIComponent(
+      `🛒 *Новый заказ из магазина «Форум»*\n\n` +
+      `${list}\n\n` +
+      `💰 *ИТОГО К ОПЛАТЕ: ${total.toLocaleString()} ₽*\n\n` +
+      `Прошу связаться со мной для уточнения деталей заказа.`
+    );
+    
     return `${COMPANY_INFO.telegram}?text=${msg}`;
   };
 
@@ -81,11 +101,16 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                       />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium truncate">{item.product.name}</p>
-                        {item.product.price && (
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {item.product.price} {item.product.priceUnit}
-                          </p>
-                        )}
+                        <div className="flex flex-col mt-0.5">
+                          {item.product.price && (
+                            <span className="text-xs text-muted-foreground">
+                              {item.product.price} {item.product.priceUnit}
+                            </span>
+                          )}
+                          <span className="text-sm font-bold text-primary">
+                            {(calculateItemPrice(item.product) * item.quantity).toLocaleString()} ₽
+                          </span>
+                        </div>
                         <div className="flex items-center gap-2 mt-2">
                           <button
                             onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
@@ -116,7 +141,14 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
 
             {/* Footer */}
             {items.length > 0 && (
-              <div className="p-4 border-t border-border space-y-3">
+              <div className="p-4 border-t border-border space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-muted-foreground">Итого:</span>
+                  <span className="text-xl font-bold text-primary">
+                    {totalPrice().toLocaleString()} ₽
+                  </span>
+                </div>
+                
                 <a
                   href={buildTelegramMessage()}
                   target="_blank"
@@ -128,7 +160,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                 </a>
                 <button
                   onClick={clearCart}
-                  className="w-full text-sm text-muted-foreground hover:text-destructive transition-colors"
+                  className="w-full text-xs text-muted-foreground hover:text-destructive transition-colors"
                 >
                   Очистить корзину
                 </button>
