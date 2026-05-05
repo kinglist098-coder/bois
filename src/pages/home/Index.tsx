@@ -95,8 +95,17 @@ export default function Index() {
     ? PRODUCTS
     : PRODUCTS.filter((p) => p.categoryId === selectedCategory);
 
-  const onSubmit = async (_data: ContactFormData) => {
-    await new Promise((r) => setTimeout(r, 800));
+  const onSubmit = async (data: ContactFormData) => {
+    await new Promise((r) => setTimeout(r, 600));
+    // Build mailto link with the form data so it goes to the professional email
+    const subject = encodeURIComponent(`Заявка от ${data.name}`);
+    const body = encodeURIComponent(
+      `Имя: ${data.name}\n` +
+      `Телефон: ${data.phone}\n` +
+      (data.email ? `Email: ${data.email}\n` : '') +
+      `\nСообщение:\n${data.message}`
+    );
+    window.open(`mailto:${COMPANY_INFO.email}?subject=${subject}&body=${body}`, '_blank');
     setFormSent(true);
     reset();
     setTimeout(() => setFormSent(false), 5000);
