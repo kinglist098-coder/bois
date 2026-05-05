@@ -1236,8 +1236,8 @@ export const PRODUCTS: Product[] = [
     name: 'Клееный брус профилированный 100×100 мм',
     categoryId: 'klee',
     images: [
-      '/images/91e03ae7ea41fb4de90035e625d63b75.jpg',
       '/images/4d530f70cf21b4a22231cfa4594157f1.jpg',
+      '/images/67729c30e9bb77a61f39fcc4c8deba76.jpg',
     ],
     description: 'Клееный профилированный брус 100×100 мм. Влажность 10-12%. Не трескается и не коробится.',
     specs: {
