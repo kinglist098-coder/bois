@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2, ShoppingCart } from 'lucide-react';
+import { X, Trash2, ShoppingCart, Mail, Loader2 } from 'lucide-react';
 import { useCartStore, calculateItemPrice } from '@/hooks/useCart';
 import { COMPANY_INFO } from '@/lib/index';
 import { SiTelegram } from 'react-icons/si';
+import { toast } from 'sonner';
 
 interface CartDrawerProps {
   open: boolean;
@@ -11,6 +13,10 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ open, onClose }: CartDrawerProps) {
   const { items, removeItem, updateQuantity, clearCart, totalPrice } = useCartStore();
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const buildTelegramMessage = () => {
     if (items.length === 0) return COMPANY_INFO.telegram;
@@ -30,15 +36,106 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
       })
       .join('\n\n');
 
+    let contactInfo = '';
+    if (customerName || customerPhone || customerEmail) {
+      contactInfo = `\n\nДанные заказчика:\n` +
+        (customerName ? `Имя: ${customerName}\n` : '') +
+        (customerPhone ? `Телефон: ${customerPhone}\n` : '') +
+        (customerEmail ? `Email: ${customerEmail}\n` : '');
+    }
+
     const total = totalPrice();
     const msg = encodeURIComponent(
       `🛒 *Новый заказ из магазина «Форум»*\n\n` +
       `${list}\n\n` +
-      `💰 *ИТОГО К ОПЛАТЕ: ${total.toLocaleString()} ₽*\n\n` +
-      `Прошу связаться со мной для уточнения деталей заказа.`
+      `💰 *ИТОГО К ОПЛАТЕ: ${total.toLocaleString()} ₽*` +
+      contactInfo +
+      `\n\nПрошу связаться со мной для уточнения деталей заказа.`
     );
     
     return `${COMPANY_INFO.telegram}?text=${msg}`;
+  };
+
+  const handleOrderSubmit = async () => {
+    if (items.length === 0) {
+      toast.error('Корзина пуста');
+      return;
+    }
+    if (!customerName || !customerPhone || !customerEmail) {
+      toast.error('Пожалуйста, заполните все контактные данные');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      const orderDetails = items.map((i) => {
+        const itemPrice = calculateItemPrice(i.product);
+        const subtotal = itemPrice * i.quantity;
+        const imgUrl = i.product.images[0].startsWith('http') 
+          ? i.product.images[0] 
+          : `${baseUrl}${i.product.images[0]}`;
+        
+        return {
+          name: i.product.name,
+          price: itemPrice,
+          quantity: i.quantity,
+          subtotal: subtotal.toLocaleString(),
+          imgUrl
+        };
+      });
+
+      const html = `
+        <h2>Новый заказ из магазина «Форум»</h2>
+        <p><strong>Заказчик:</strong> ${customerName}</p>
+        <p><strong>Телефон:</strong> ${customerPhone}</p>
+        <p><strong>Email:</strong> ${customerEmail}</p>
+        <hr />
+        <h3>Товары:</h3>
+        <ul style="list-style: none; padding: 0;">
+          ${orderDetails.map((item) => `
+            <li style="display: flex; align-items: center; margin-bottom: 10px;">
+              <img src="${item.imgUrl}" alt="${item.name}" width="60" height="60" style="object-fit: cover; border-radius: 6px; margin-right: 15px;" />
+              <div>
+                <strong>${item.name}</strong><br/>
+                ${item.quantity} шт. × ${item.price} ₽ = <strong>${item.subtotal} ₽</strong>
+              </div>
+            </li>
+          `).join('')}
+        </ul>
+        <hr />
+        <p><strong>ИТОГО К ОПЛАТЕ:</strong> ${totalPrice().toLocaleString()} ₽</p>
+      `;
+
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`
+        },
+        body: JSON.stringify({
+          from: 'Forum Store <onboarding@resend.dev>', // Vous devez configurer un expéditeur vérifié sur Resend
+          to: [customerEmail, COMPANY_INFO.email],
+          subject: `Новый заказ с сайта - ${customerName}`,
+          html: html
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || 'Ошибка API Resend');
+      }
+      
+      toast.success('Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+      clearCart();
+      onClose();
+    } catch (err: any) {
+      console.error('Ошибка отправки заказа:', err);
+      toast.error('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз или напишите в Telegram.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -141,26 +238,65 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
 
             {/* Footer */}
             {items.length > 0 && (
-              <div className="p-4 border-t border-border space-y-4">
-                <div className="flex items-center justify-between">
+              <div className="p-4 border-t border-border space-y-4 bg-background">
+                <div className="flex items-center justify-between shadow-sm pb-2 border-b border-border">
                   <span className="text-sm font-medium text-muted-foreground">Итого:</span>
                   <span className="text-xl font-bold text-primary">
                     {totalPrice().toLocaleString()} ₽
                   </span>
                 </div>
                 
-                <a
-                  href={buildTelegramMessage()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-blue-500/20"
-                >
-                  <SiTelegram size={16} />
-                  Заказать через Telegram
-                </a>
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Ваши контактные данные</p>
+                  <input
+                    type="text"
+                    placeholder="Ваше Имя"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-border rounded-md bg-secondary/50 focus:bg-background focus:ring-1 focus:ring-primary outline-none transition-all"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Ваш Телефон"
+                    value={customerPhone}
+                    onChange={(e) => setCustomerPhone(e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-border rounded-md bg-secondary/50 focus:bg-background focus:ring-1 focus:ring-primary outline-none transition-all"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Ваш Email"
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-border rounded-md bg-secondary/50 focus:bg-background focus:ring-1 focus:ring-primary outline-none transition-all"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 pt-2">
+                  <button
+                    onClick={handleOrderSubmit}
+                    disabled={isSubmitting}
+                    className="flex flex-col items-center justify-center gap-1.5 w-full px-2 py-3 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-800/50 text-white text-xs font-medium rounded-lg transition-colors shadow-sm cursor-pointer"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <Mail size={16} />
+                    )}
+                    <span>{isSubmitting ? 'Отправка...' : 'Заказать по Email'}</span>
+                  </button>
+                  <a
+                    href={buildTelegramMessage()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center justify-center gap-1.5 w-full px-2 py-3 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-lg transition-colors shadow-sm shadow-blue-500/20"
+                  >
+                    <SiTelegram size={16} />
+                    <span>Заказать в Telegram</span>
+                  </a>
+                </div>
                 <button
                   onClick={clearCart}
-                  className="w-full text-xs text-muted-foreground hover:text-destructive transition-colors"
+                  className="w-full text-xs text-muted-foreground hover:text-destructive transition-colors text-center pt-1"
                 >
                   Очистить корзину
                 </button>
