@@ -111,8 +111,9 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Forum <onboarding@resend.dev>', // Verifiez ce domaine sur Resend
-          to: [customerEmail, COMPANY_INFO.email],
+          from: 'Forum <onboarding@resend.dev>',
+          to: [COMPANY_INFO.email],
+          reply_to: customerEmail,
           subject: `Новый заказ с сайта - ${customerName}`,
           html: html
         })
