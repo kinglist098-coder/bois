@@ -33,7 +33,7 @@ export default function Header() {
         }`}
       >
         {/* Top bar */}
-        <div className={`border-b border-border/40 transition-all duration-300 ${scrolled ? 'hidden' : 'block'}`}>
+        <div className={`hidden md:block border-b border-border/40 transition-all duration-300 ${scrolled ? 'hidden' : 'block'}`}>
           <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between text-xs text-muted-foreground">
             <span>Оптовые поставки лесоматериалов по всей России с 2004 года</span>
             <div className="flex items-center gap-4">

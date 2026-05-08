@@ -137,7 +137,7 @@ export default function Index() {
             }}
           />
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 py-32 text-center text-white">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 py-20 md:py-32 text-center text-white">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
