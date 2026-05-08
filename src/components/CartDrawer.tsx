@@ -108,14 +108,13 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
         <p><strong>ИТОГО К ОПЛАТЕ:</strong> ${totalPrice().toLocaleString()} ₽</p>
       `;
 
-      const response = await fetch('https://api.resend.com/emails', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`
         },
         body: JSON.stringify({
-          from: 'Forum Store <onboarding@resend.dev>', // Vous devez configurer un expéditeur vérifié sur Resend
+          from: 'Forum <onboarding@resend.dev>', // Vérifiez ce domaine sur Resend
           to: [customerEmail, COMPANY_INFO.email],
           subject: `Новый заказ с сайта - ${customerName}`,
           html: html
