@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2, ShoppingCart, Mail } from 'lucide-react';
+import { X, Trash2, ShoppingCart, Mail, Loader2 } from 'lucide-react';
 import { useCartStore, calculateItemPrice } from '@/hooks/useCart';
 import { COMPANY_INFO } from '@/lib/index';
 import { SiTelegram } from 'react-icons/si';
@@ -16,6 +16,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerName, setCustomerName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const buildTelegramMessage = () => {
     if (items.length === 0) return COMPANY_INFO.telegram;
@@ -55,7 +56,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
     return `${COMPANY_INFO.telegram}?text=${msg}`;
   };
 
-  const handleOrderSubmit = () => {
+  const handleOrderSubmit = async () => {
     if (items.length === 0) {
       toast.error('Корзина пуста');
       return;
@@ -65,32 +66,72 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
       return;
     }
 
-    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-    
-    const list = items
-      .map((i) => {
+    setIsSubmitting(true);
+
+    try {
+      const orderDetails = items.map((i) => {
         const itemPrice = calculateItemPrice(i.product);
         const subtotal = itemPrice * i.quantity;
-        const imgUrl = i.product.images[0].startsWith('http') 
-          ? i.product.images[0] 
-          : `${baseUrl}${i.product.images[0]}`;
+        const specsText = Object.entries(i.product.specs).map(([k, v]) => `${k}: ${v}`).join(', ');
         
-        return `- ${i.product.name}\n  Цена: ${itemPrice} ${i.product.priceUnit || '₽'}\n  Кол-во: ${i.quantity} шт.\n  Сумма: ${subtotal.toLocaleString()} ₽\n  Фото: ${imgUrl}`;
-      })
-      .join('\n\n');
+        return `
+          <li style="margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 12px;">
+            <strong style="font-size: 16px;">${i.product.name}</strong><br/>
+            <span style="font-size: 13px; color: #666;">Характеристики: ${specsText}</span><br/>
+            <div style="margin-top: 4px;">
+              ${i.quantity} шт. × ${itemPrice} ${i.product.priceUnit || '₽'} = <strong style="color: #2c3e50;">${subtotal.toLocaleString()} ₽</strong>
+            </div>
+          </li>
+        `;
+      });
 
-    const total = totalPrice();
-    
-    const contactInfo = `\n\nДанные заказчика:\nИмя: ${customerName}\nТелефон: ${customerPhone}\nEmail: ${customerEmail}\n`;
+      const html = `
+        <div style="font-family: sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #2c3e50;">Новый заказ из магазина «Форум»</h2>
+          <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #e9ecef;">
+            <p style="margin: 5px 0;"><strong>Заказчик:</strong> ${customerName}</p>
+            <p style="margin: 5px 0;"><strong>Телефон:</strong> ${customerPhone}</p>
+            <p style="margin: 5px 0;"><strong>Email:</strong> ${customerEmail}</p>
+          </div>
+          
+          <h3 style="color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 5px;">Список товаров:</h3>
+          <ul style="list-style: none; padding: 0; margin-top: 15px;">
+            ${orderDetails.join('')}
+          </ul>
+          
+          <div style="margin-top: 25px; font-size: 20px; text-align: right; background: #e8f4f8; padding: 15px; border-radius: 8px;">
+            <strong>ИТОГО К ОПЛАТЕ:</strong> <span style="color: #0d6efd;">${totalPrice().toLocaleString()} ₽</span>
+          </div>
+        </div>
+      `;
 
-    const subject = `Новый заказ с сайта - ${customerName}`;
-    const body = `🛒 Новый заказ из магазина «Форум»\n\n${list}\n\n💰 ИТОГО К ОПЛАТЕ: ${total.toLocaleString()} ₽${contactInfo}\n\nПрошу связаться со мной для уточнения деталей заказа.`;
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'Forum <onboarding@resend.dev>', // Verifiez ce domaine sur Resend
+          to: [customerEmail, COMPANY_INFO.email],
+          subject: `Новый заказ с сайта - ${customerName}`,
+          html: html
+        })
+      });
 
-    const mailtoLink = `mailto:${COMPANY_INFO.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    window.location.href = mailtoLink;
-    
-    toast.success('Почтовый клиент открыт для отправки заказа!');
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || 'Ошибка API Resend');
+      }
+      
+      toast.success('Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+      clearCart();
+      onClose();
+    } catch (err: any) {
+      console.error('Ошибка отправки заказа:', err);
+      toast.error('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз или напишите в Telegram.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -229,10 +270,15 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                 <div className="grid grid-cols-2 gap-2 pt-2">
                   <button
                     onClick={handleOrderSubmit}
+                    disabled={isSubmitting}
                     className="flex flex-col items-center justify-center gap-1.5 w-full px-2 py-3 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-800/50 text-white text-xs font-medium rounded-lg transition-colors shadow-sm cursor-pointer"
                   >
-                    <Mail size={16} />
-                    <span>Заказать по Email</span>
+                    {isSubmitting ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <Mail size={16} />
+                    )}
+                    <span>{isSubmitting ? 'Отправка...' : 'Заказать по Email'}</span>
                   </button>
                   <a
                     href={buildTelegramMessage()}
