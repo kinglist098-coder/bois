@@ -108,11 +108,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             </button>
 
             {/* Images */}
-            <div className="md:w-1/2 relative bg-secondary/20">
+            <div className="md:w-1/2 relative bg-secondary/20 flex-shrink-0">
               <img
                 src={product.images[imgIdx]}
                 alt={product.name}
-                className="w-full h-64 md:h-full object-cover"
+                className="w-full h-48 sm:h-64 md:h-full object-cover"
               />
               {product.images.length > 1 && (
                 <>

@@ -168,8 +168,8 @@ export default function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Качественные<br />
-              <span className="text-accent">лесоматериалы</span><br />
+              Качественные <span className="sm:inline hidden"><br /></span>
+              <span className="text-accent">лесоматериалы</span><br className="sm:block hidden" />
               оптом в СПб
             </motion.h1>
 
@@ -297,7 +297,7 @@ export default function Index() {
               </FadeSection>
 
               {/* Images grid */}
-              <FadeSection className="grid grid-cols-2 gap-3">
+              <FadeSection className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <img
                   src="/images/90ebd9d60ff445d5f1ff292446befd7e.jpg"
                   alt="Склад лесоматериалов"
@@ -306,7 +306,7 @@ export default function Index() {
                 <img
                   src="/images/d977bb6bc3bc799426c792774dd7c200.jpg"
                   alt="Бревна на складе"
-                  className="w-full h-52 object-cover rounded-xl mt-6"
+                  className="w-full h-52 object-cover rounded-xl sm:mt-6"
                 />
                 <img
                   src="/images/cb36632a4b0a4bcee9e5a8bf1fe320b3.jpg"
@@ -316,7 +316,7 @@ export default function Index() {
                 <img
                   src="/images/ddb61e35da2c011a63b4cab0fc90ea8b.jpg"
                   alt="Лесной массив"
-                  className="w-full h-52 object-cover rounded-xl mt-6"
+                  className="w-full h-52 object-cover rounded-xl sm:mt-6"
                 />
               </FadeSection>
             </div>
@@ -327,7 +327,7 @@ export default function Index() {
                 <Building2 size={18} className="text-primary" />
                 <h3 className="font-semibold">Реквизиты компании</h3>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 {[
                   ['Полное наименование', COMPANY_INFO.fullName],
                   ['ИНН', COMPANY_INFO.inn],
