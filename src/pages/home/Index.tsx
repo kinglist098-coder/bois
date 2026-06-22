@@ -29,7 +29,7 @@ const stagger = { visible: { transition: { staggerChildren: 0.1 } } };
 // ─── Contact form schema ───────────────────────────────────────
 const contactSchema = z.object({
   name: z.string().min(2, 'Введите имя (минимум 2 символа)'),
-  phone: z.string().min(7, 'Введите корректный номер телефона'),
+  
   email: z.string().email('Введите корректный email').or(z.literal('')).optional(),
   message: z.string().min(5, 'Введите сообщение (минимум 5 символов)'),
 });
