@@ -46,13 +46,7 @@ export default function Header() {
                   <Mail size={12} />
                   {COMPANY_INFO.email}
                 </a>
-                <a
-                  href={`tel:${COMPANY_INFO.phone}`}
-                  className="flex items-center gap-1.5 text-primary font-semibold hover:text-accent transition-colors"
-                >
-                  <Phone size={12} />
-                  {COMPANY_INFO.phone}
-                </a>
+               
               </div>
             </div>
           </div>
