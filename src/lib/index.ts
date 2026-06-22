@@ -56,7 +56,7 @@ export const COMPANY_INFO = {
   founded: '09.06.2004',
   address: '195220, г. Санкт-Петербург, Гражданский пр-кт, д. 26 литера А, помещ. 8-н, оф. 2-41',
   shortAddress: 'г. Санкт-Петербург, Гражданский пр-кт, д. 26',
-  phone: '+7 (812) 648-23-93',
+  
   email: 'zakaz@forumles.ru',
   workHours: 'Пн–Пт: 9:00 – 19:00, Сб: 10:00 – 16:00',
   telegram: 'https://t.me/LLCForum',
